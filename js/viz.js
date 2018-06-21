@@ -106,6 +106,7 @@ function draw() {
 			.attr("x", 0)
 			.attr("y", 0);
 
+
 	// Background for avatar SVG
 	var rectangle = topSVG.append("rect")
 		.attr("width", "100%")
@@ -154,41 +155,67 @@ function draw() {
 		.attr("width", function() {
 			return chartDiv.clientWidth;
 		})
+		.attr("height", function() {
+			return chartDiv.clientHeight;
+		})
 		.attr("y", function() {
 			return chartDiv.clientHeight / 4;
-		});
+		})
+		.attr("id", "bottomSVG");
+
+	console.log(bottomSVG.attr("width"));
 
 	// Bottom SVG background color
 	bottomSVG.append("rect")
 		.attr("width", "100%")
 		.attr("height", "100%")
-		.attr("fill", "orange")
-		.attr("opacity", 0.4);
+		.attr("fill", "aliceblue");
 
-	var radScale = d3.scaleLinear()
-		.domain([0,200])
-		.range([30, 100]);
+	
+	const colors = ["red", "orange"];
 
-	const colors = ["red", "orange", "blue", "green"];
+	var sizeScale = d3.scaleLinear()
+		.domain([0, 350])
+		.range([10, bottomSVG.attr("height")/2])
+
+
+	repos.sort(function(a, b) {
+		return b.commits - a.commits;
+	});
 
 	bottomSVG.selectAll("circle")
 		.data(repos)
 		.enter()
 		.append("svg:circle")
-			.attr("cx", function(d, i) {
-				return i * 50 + 20;
+			.attr("class", "node")
+			.attr("cx", function() { 
+				return +bottomSVG.attr("width") / 2;
 			})
 			.attr("cy", function() {
-				return chartDiv.clientHeight / 2;
+				return +bottomSVG.attr("height") / 2.5;
 			})
 			.attr("r", function(d) {
-				return radScale(d.commits);
+				return sizeScale(d.commits);
 			})
 			.attr("fill", function(d,i) {
 				return colors[i % colors.length];
 			})
-			.attr("opacity", 0.6)
-			.attr("stroke", "black");
+			.attr("opacity", 1)
+			.attr("stroke", "black")
+			.attr("stroke-width", "2.5px")
+			.on("mouseover", function(d,i) {
+				d3.select(this).style("fill", "white")
+				.attr("opacity", 1);
+				console.log(d.langs);
+			})
+			.on("mouseout", function(d,i) {
+				d3.select(this).style("fill", function() {
+					return colors[i % colors.length];
+				})
+				.attr("opacity", 1);
+			});
+
+
 
 
 }
