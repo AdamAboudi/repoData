@@ -296,7 +296,7 @@ function draw() {
 				window.location.href = "https://github.com/" + username + "/" + d.name;
 			})
 			.transition()
-			.duration(2000)
+			.duration(1000)
 				.attr("stroke", "black")
 				.transition()
 				.duration(1000)
