@@ -22,6 +22,9 @@ var printLangs = function(langs) {
 	return toString.substring(0, toString.length - 2);
 }
 
+const bgColor = "#7EC6BA"
+
+svg.attr("background", bgColor);
 
 function redraw() {
 
@@ -121,7 +124,7 @@ function draw() {
 	var rectangle = topSVG.append("rect")
 		.attr("width", "100%")
 		.attr("height", "100%")
-		.attr("fill", "aliceblue");
+		.attr("fill", bgColor);
 
 	// Circle for avatar image
 	var circle = topSVG.append("circle")
@@ -194,7 +197,7 @@ function draw() {
 		.attr("font-family", "Lato")
 		.attr("font-size", "110%")
 		.attr("text-anchor", "start")
-		.text("");
+		.text("none selected");
 
 	var repoInfoCommits = topSVG.append("text")
 		.attr("id", "repoCommits")
@@ -203,7 +206,7 @@ function draw() {
 		.attr("font-family", "Lato")
 		.attr("font-size", "110%")
 		.attr("text-anchor", "start")
-		.text("");
+		.text("none selected");
 
 	var repoInfoLangs = topSVG.append("text")
 		.attr("id", "repoLangs")
@@ -212,7 +215,7 @@ function draw() {
 		.attr("font-family", "Lato")
 		.attr("font-size", "110%")
 		.attr("text-anchor", "start")
-		.text("");
+		.text("none selected");
 
 
 
@@ -237,19 +240,18 @@ function draw() {
 	bottomSVG.append("rect")
 		.attr("width", "100%")
 		.attr("height", "100%")
-		.attr("fill", "aliceblue");
+		.attr("fill", bgColor);
 
 	
-	const colors = ["red", "orange"];
+	const colors = ["#E27D60", "#E8A87C"];
 
-	var sizeScale = d3.scaleLinear()
-		.domain([0, 300])
-		.range([10, bottomSVG.attr("height")/2.25])
+	
 
 
 	repos.sort(function(a, b) {
 		return b.commits - a.commits;
 	});
+
 
 	bottomSVG.selectAll("circle")
 		.data(repos)
@@ -262,19 +264,18 @@ function draw() {
 			.attr("cy", function() {
 				return +bottomSVG.attr("height") / 2.5;
 			})
-			.attr("r", function(d) {
-				return sizeScale(d.commits);
+			.attr("r", function(d, i) {
+				return 200;
 			})
 			.attr("fill", function(d,i) {
 				return colors[i % colors.length];
 			})
 			.attr("opacity", 1)
 			.attr("stroke", "black")
-			.attr("stroke-width", "2.5px")
+			.attr("stroke-width", "1.5px")
 			.style("cursor", "pointer")
 			.on("mouseover", function(d,i) {
-				d3.select(this).style("fill", "white");
-
+				d3.select(this).style("fill", "#C38D9E");
 
 				d3.selectAll("#repoName").text(d.name);
 				d3.selectAll("#repoCommits").text(d.commits);
@@ -286,13 +287,21 @@ function draw() {
 					return colors[i % colors.length];
 				});
 
-				d3.selectAll("#repoName").text("");
-				d3.selectAll("#repoCommits").text("");
-				d3.selectAll("#repoLangs").text("");
+				d3.selectAll("#repoName").text("none selected");
+				d3.selectAll("#repoCommits").text("none selected");
+				d3.selectAll("#repoLangs").text("none selected");
 
-			});
+			})
+			.on("click", function(d) {
+				window.location.href = "https://github.com/" + username + "/" + d.name;
+			})
+			.transition()
+			.duration(2000)
+				.attr("r", function(d, i) {
+					return bottomSVG.attr("height")/3 - i*40;
+				});
 
 }
 
 redraw();
-//window.addEventListener("resize", redraw);
+window.addEventListener("resize", redraw);
