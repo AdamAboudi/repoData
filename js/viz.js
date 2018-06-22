@@ -34,7 +34,7 @@ function redraw() {
 			LOADING DATA
 
 	*************************************************************/
-
+ 
 	repos = [];
 
 	// Get current width and height of window
@@ -178,7 +178,7 @@ function draw() {
 		.attr("font-size", "110%")
 		.attr("font-weight", "bold")
 		.attr("text-anchor", "end")
-		.text("Commits: ");
+		.text("User Commits: ");
 
 	var repoInfoLangs0 = topSVG.append("text")
 		.attr("id", "repoLangs0")
