@@ -12,6 +12,16 @@ const config = {"avatar_size": 150};
 var repos = [];
 
 
+var printLangs = function(langs) {
+	var toString = "";
+
+	for (language in langs) {
+		toString += language + ", ";
+	}
+
+	return toString.substring(0, toString.length - 2);
+}
+
 
 function redraw() {
 
@@ -147,6 +157,64 @@ function draw() {
 		.attr("text-anchor", "middle")
 		.text("Commits: " + totalComs);
 
+	var repoInfoName0 = topSVG.append("text")
+		.attr("id", "repoName0")
+		.attr("x", margin.left + config.avatar_size * 2)
+		.attr("y", margin.top + config.avatar_size / 4)
+		.attr("font-family", "Lato")
+		.attr("font-size", "110%")
+		.attr("font-weight", "bold")
+		.attr("text-anchor", "end")
+		.text("Repository: ");
+
+	var repoInfoCommits0 = topSVG.append("text")
+		.attr("id", "repoCommits0")
+		.attr("x", margin.left + config.avatar_size * 2)
+		.attr("y", margin.top + config.avatar_size / 4 + 45)
+		.attr("font-family", "Lato")
+		.attr("font-size", "110%")
+		.attr("font-weight", "bold")
+		.attr("text-anchor", "end")
+		.text("Commits: ");
+
+	var repoInfoLangs0 = topSVG.append("text")
+		.attr("id", "repoLangs0")
+		.attr("x", margin.left + config.avatar_size * 2)
+		.attr("y", margin.top + config.avatar_size / 4 + 90)
+		.attr("font-family", "Lato")
+		.attr("font-size", "110%")
+		.attr("font-weight", "bold")
+		.attr("text-anchor", "end")
+		.text("Languages: ");
+
+	var repoInfoName = topSVG.append("text")
+		.attr("id", "repoName")
+		.attr("x", margin.left + config.avatar_size * 2 + 10)
+		.attr("y", margin.top + config.avatar_size / 4)
+		.attr("font-family", "Lato")
+		.attr("font-size", "110%")
+		.attr("text-anchor", "start")
+		.text("");
+
+	var repoInfoCommits = topSVG.append("text")
+		.attr("id", "repoCommits")
+		.attr("x", margin.left + config.avatar_size * 2 + 10)
+		.attr("y", margin.top + config.avatar_size / 4 + 45)
+		.attr("font-family", "Lato")
+		.attr("font-size", "110%")
+		.attr("text-anchor", "start")
+		.text("");
+
+	var repoInfoLangs = topSVG.append("text")
+		.attr("id", "repoLangs")
+		.attr("x", margin.left + config.avatar_size * 2 + 10)
+		.attr("y", margin.top + config.avatar_size / 4 + 90)
+		.attr("font-family", "Lato")
+		.attr("font-size", "110%")
+		.attr("text-anchor", "start")
+		.text("");
+
+
 
 	/**********************************************
 		BOTTOM SVG ELEMENT AREA
@@ -175,8 +243,8 @@ function draw() {
 	const colors = ["red", "orange"];
 
 	var sizeScale = d3.scaleLinear()
-		.domain([0, 350])
-		.range([10, bottomSVG.attr("height")/2])
+		.domain([0, 300])
+		.range([10, bottomSVG.attr("height")/2.25])
 
 
 	repos.sort(function(a, b) {
@@ -204,19 +272,25 @@ function draw() {
 			.attr("stroke", "black")
 			.attr("stroke-width", "2.5px")
 			.on("mouseover", function(d,i) {
-				d3.select(this).style("fill", "white")
-				.attr("opacity", 1);
+				d3.select(this).style("fill", "white");
+
 				console.log(d.langs);
+
+				d3.selectAll("#repoName").text(d.name);
+				d3.selectAll("#repoCommits").text(d.commits);
+				d3.selectAll("#repoLangs").text(printLangs(d.langs));
+
 			})
 			.on("mouseout", function(d,i) {
 				d3.select(this).style("fill", function() {
 					return colors[i % colors.length];
-				})
-				.attr("opacity", 1);
+				});
+
+				d3.selectAll("#repoName").text("");
+				d3.selectAll("#repoCommits").text("");
+				d3.selectAll("#repoLangs").text("");
+
 			});
-
-
-
 
 }
 
