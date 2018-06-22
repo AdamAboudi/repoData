@@ -265,13 +265,13 @@ function draw() {
 				return +bottomSVG.attr("height") / 2.5;
 			})
 			.attr("r", function(d, i) {
-				return 200;
+				return bottomSVG.attr("height")/3 - i*40;
 			})
 			.attr("fill", function(d,i) {
-				return colors[i % colors.length];
+				return bgColor;
 			})
 			.attr("opacity", 1)
-			.attr("stroke", "black")
+			.attr("stroke", bgColor)
 			.attr("stroke-width", "1.5px")
 			.style("cursor", "pointer")
 			.on("mouseover", function(d,i) {
@@ -296,10 +296,13 @@ function draw() {
 				window.location.href = "https://github.com/" + username + "/" + d.name;
 			})
 			.transition()
-			.duration(3000)
-				.attr("r", function(d, i) {
-					return bottomSVG.attr("height")/3 - i*40;
-				});
+			.duration(2000)
+				.attr("stroke", "black")
+				.transition()
+				.duration(1000)
+					.attr("fill", function(d, i) {
+						return colors[i % colors.length];
+					});
 
 }
 
