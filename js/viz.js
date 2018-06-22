@@ -272,10 +272,10 @@ function draw() {
 			})
 			.attr("opacity", 1)
 			.attr("stroke", bgColor)
-			.attr("stroke-width", "1.5px")
+			.attr("stroke-width", "1px")
 			.style("cursor", "pointer")
 			.on("mouseover", function(d,i) {
-				d3.select(this).style("fill", "#C38D9E");
+				d3.select(this).transition().duration(250).style("fill", "#C38D9E");
 
 				d3.selectAll("#repoName").text(d.name);
 				d3.selectAll("#repoCommits").text(d.commits);
@@ -283,7 +283,7 @@ function draw() {
 
 			})
 			.on("mouseout", function(d,i) {
-				d3.select(this).style("fill", function() {
+				d3.select(this).transition().duration(250).style("fill", function() {
 					return colors[i % colors.length];
 				});
 
@@ -309,3 +309,4 @@ function draw() {
 // resize with window
 redraw();
 window.addEventListener("resize", redraw);
+
