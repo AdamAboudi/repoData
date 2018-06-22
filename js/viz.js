@@ -296,7 +296,7 @@ function draw() {
 				window.location.href = "https://github.com/" + username + "/" + d.name;
 			})
 			.transition()
-			.duration(2000)
+			.duration(3000)
 				.attr("r", function(d, i) {
 					return bottomSVG.attr("height")/3 - i*40;
 				});
