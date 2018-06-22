@@ -303,5 +303,6 @@ function draw() {
 
 }
 
+// resize with window
 redraw();
 window.addEventListener("resize", redraw);
