@@ -271,10 +271,10 @@ function draw() {
 			.attr("opacity", 1)
 			.attr("stroke", "black")
 			.attr("stroke-width", "2.5px")
+			.style("cursor", "pointer")
 			.on("mouseover", function(d,i) {
 				d3.select(this).style("fill", "white");
 
-				console.log(d.langs);
 
 				d3.selectAll("#repoName").text(d.name);
 				d3.selectAll("#repoCommits").text(d.commits);
